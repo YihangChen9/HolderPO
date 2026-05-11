@@ -1,0 +1,48 @@
+FROM nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04
+
+ARG PYTHON_VERSION=3.12
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install python and system packages
+RUN echo 'tzdata tzdata/Areas select America' | debconf-set-selections && \
+    echo 'tzdata tzdata/Zones/America select Los_Angeles' | debconf-set-selections && \
+    apt-get update -y && \
+    apt-get install -y software-properties-common git curl && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update -y
+RUN apt-get install -y python${PYTHON_VERSION} python${PYTHON_VERSION}-dev && \
+    ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python
+
+# Install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+ENV UV_LINK_MODE=copy
+ENV UV_CACHE_DIR=/root/.cache/uv
+ENV UV_SYSTEM_PYTHON=true
+ENV UV_BREAK_SYSTEM_PACKAGES=true
+
+# Basic libraries
+RUN --mount=type=cache,target=/root/.cache/uv uv pip install ipython
+
+# SSH server
+RUN apt-get install -y openssh-server
+RUN mkdir -p /var/run/sshd /root/.ssh
+RUN sed -i 's/#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config
+
+EXPOSE 22
+
+# Extra packages
+RUN apt-get install -y tmux htop rsync
+
+# Project environment
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install vllm==0.11.0
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install flash-attn==2.7.4.post1 --no-build-isolation
+WORKDIR /workspace
+COPY . /workspace/
+RUN --mount=type=cache,target=/root/.cache/uv uv pip install -e .
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install gymnasium==0.29.1 stable-baselines3==2.6.0 alfworld
+
+CMD ["/usr/sbin/sshd", "-D"]
