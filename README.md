@@ -91,9 +91,9 @@ controls how *p* evolves over training.
 ├── scripts/
 │   ├── qwen2.5-math-7b-holder.sh   # training launcher
 │   └── eval.sh                     # offline eval
-├── utils/evaluation/               # vLLM-based evaluator + math grader
+├── utils/evaluation/               # vLLM-based evaluator + maths grader
 ├── datasets/evaluation_suite{,_v2}/  # eval prompts
-├── understand_r1_zero_main/        # vendored math grader & data loader
+├── understand_r1_zero_main/        # vendored maths grader & data loader
 └── assets/                         # figures
 ```
 
@@ -108,13 +108,13 @@ for setup and entry points.
 
 ## Acknowledgements
 
-This codebase builds on [`oat`](https://github.com/sail-sg/oat) (math RL stack)
+This codebase builds on [`oat`](https://github.com/sail-sg/oat) (maths RL stack)
 and the [`understand-r1-zero`](https://github.com/sail-sg/understand-r1-zero)
-math grader / data pipeline. The agent variant on the
+maths grader / data pipeline. The agent variant on the
 [`agentic`](../../tree/agentic) branch forks
 [`verl-agent`](https://github.com/langfengQ/verl-agent).
 
 ## License
 
 Apache-2.0 (see `LICENSE`). Vendored `understand_r1_zero_main/` retains its
-upstream Apache-2.0 license.
+upstream Apache-2.0 licence.
