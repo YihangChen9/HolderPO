@@ -1,6 +1,6 @@
-# Hölder-MPO
+# HölderPO
 
-Reference implementation of **Hölder-MPO** — an RL fine-tuning objective for
+Reference implementation of **HölderPO** — an RL fine-tuning objective for
 math-reasoning LLMs that replaces the GRPO importance ratio with a
 **Hölder $p$-mean ratio** over the response. Built on
 [`oat`](https://github.com/sail-sg/oat) and the vendored
