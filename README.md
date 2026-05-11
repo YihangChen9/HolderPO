@@ -1,7 +1,7 @@
-<h1 align="center">Hölder Policy Optimization</h1>
+<h1 align="center">Hölder Policy Optimisation</h1>
 
 <p align="center">
-  <em><strong>Hölder Policy Optimization</strong> replaces the fixed aggregation
+  <em><strong>Hölder Policy Optimisation</strong> replaces the fixed aggregation
   of token-level importance sampling ratios in GRPO with the adaptable Hölder
   mean (<i>p</i>-norm). Modulating a dynamic <i>p</i> ∈ ℝ interpolates between
   sequence-level stability and token-level exploration.</em>
